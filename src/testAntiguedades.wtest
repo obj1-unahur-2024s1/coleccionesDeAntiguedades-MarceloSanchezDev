@@ -1,0 +1,54 @@
+import example.*
+import articulos.*
+
+describe "test antiguedades" {
+	test "se agrega un articulo a la casa de antiguedades" {
+		casaDeAntiguedades.agregarAntiguedades(jarronViejo)
+		assert.equals(1 , casaDeAntiguedades.cuantasAntiguedadesHay())
+ 	}
+ 	test "se agrega un lote1 a la casa de antiguedades"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		assert.equals(3 , casaDeAntiguedades.cuantasAntiguedadesHay())
+ 	}
+ 	test "se busca el articulo jarronViejo en la casa de antiguedades"{
+ 		casaDeAntiguedades.agregarAntiguedades(jarronViejo)
+ 		assert.that(casaDeAntiguedades.existeLaAntiguedad(jarronViejo))
+ 	}
+ 	test"se busca saber la ultima adquisicion de la casa de antiguedades"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		assert.equals(jarronViejoJapones,casaDeAntiguedades.ultimaAdquisicion())
+ 	}
+ 	test"se busca saber si un articulo es muy antiguo"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		assert.that(casaDeAntiguedades.esMuyAntigua(jarronViejo))
+ 		assert.notThat(casaDeAntiguedades.esMuyAntigua(jarronViejoChino))
+ 		assert.notThat(casaDeAntiguedades.esMuyAntigua(jarronViejoJapones))
+ 	}
+ 	test"se busca saber la antiguedad de un articulo en dicha ubicacion"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		assert.equals(jarronViejo.anosAntiguedad(),casaDeAntiguedades. queAntiguedadTiene(0))
+ 		assert.equals(jarronViejoChino.anosAntiguedad(),casaDeAntiguedades. queAntiguedadTiene(1))
+ 		assert.equals(jarronViejoJapones.anosAntiguedad(),casaDeAntiguedades. queAntiguedadTiene(2))
+ 	}
+ 	test "se busca restaura el primer articulo"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		casaDeAntiguedades.restaurarPimerAntiguedad()
+ 		assert.notThat(jarronViejo.estaEnMalEstado())
+ 	}
+ 	test "se busca restaura el ultimo articulo"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		casaDeAntiguedades.restaurarUltimaAntiguedad()
+ 		assert.notThat(jarronViejoJapones.estaEnMalEstado())
+ 	}
+ 	test "se busca restaura un articulo en particular"{
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		casaDeAntiguedades.restaurarAntiguedad(1)
+ 		assert.notThat(jarronViejoChino.estaEnMalEstado())
+ 	}
+ 	test "se busca vender todos los articulos" {
+ 		casaDeAntiguedades.agregarLote([jarronViejo, jarronViejoChino, jarronViejoJapones])
+ 		casaDeAntiguedades.venderTodo()
+ 		assert.equals(0,casaDeAntiguedades.cuantasAntiguedadesHay())
+ 	}
+}
+
